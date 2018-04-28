@@ -21,6 +21,12 @@ const Suffix = styled.Text`
   max-width: 50px;
 `;
 
+const Prefix = styled.Text`
+  position:absolute;
+  left: 10px;
+  max-width: 50px;
+`;
+
 const Label = styled.Text`
   color: ${props => props.focus ? "#4CAF50" : "#424242"};
 `;
@@ -39,15 +45,14 @@ const Textbox = styled.TextInput`
   ${props => props.withSuffix && "padding-right: 60px;" }
   font-size: ${props => fontSize[props.size] || "16px"};
   background: ${props => props.focus ? "#DCEDC8" : "white"};
-  
 `
 
 class Input extends Component {
 
-  // static defaultProps = {
-  //   _onSubmitEditing : ()=> null,
-  //   _onChange: ()=>console.log('default on change')
-  // }
+  static defaultProps = {
+    _onSubmitEditing : ()=> null,
+    _onChange: ()=>console.log('default on change')
+  }
 
   componentWillUpdate(props){
     if(props.focus){
@@ -57,7 +62,7 @@ class Input extends Component {
 
   render(){
 
-    const {id,label,suffix,nextFocus,error,required,focus} = this.props;
+    const {id,label,suffix,nextFocus,error,required,focus,prefix} = this.props;
     const requiredMark = required && <Text style={{color:"red"}}>* </Text>
     return(
       <Wrapper>
@@ -69,6 +74,7 @@ class Input extends Component {
             onSubmitEditing={()=>this.props._onSubmitEditing()}
             onChangeText={(val)=>this.props._onChange(id,val)}
             innerRef={(input)=>this._input = input} />
+          <Prefix>{prefix}</Prefix>
           <Suffix>{suffix}</Suffix>
         </InputGroup>
       </Wrapper>

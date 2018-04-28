@@ -8,7 +8,7 @@ class PatientList extends Component{
 
   _onChange = value => {
 
-    this.setState({scan:false,searchString:data})
+    this.setState({scan:false,searchString:value})
 
     const patients = [...this.state.patients].filter(patient=>patient.name.includes(value));
     // this.setState({patients})
@@ -128,7 +128,6 @@ class PatientList extends Component{
   // }
 
   render(){
-console.log('state',this.state)
     // const patients = mock_data.map((patient,i) => (
     //   <TouchableOpacity
     //     key={patient.controlNo}
@@ -147,15 +146,15 @@ console.log('state',this.state)
  
     return(
       <View style={{flex:1}}>
-        <ScrollView>
-        <Button title="Scan" onPress={()=>this.setState({scan:true})} />
+       {/* <Button title="Scan" onPress={()=>this.setState({scan:true})} />
         {
           this.state.scan &&
           <BarcodeScanner _search={this._search} />
-        }
+        } */}
         <Searchbox 
           placeholder="Search Patient Name / Control No."
           _onChange={this._onChange} />
+        <ScrollView>
          {/* {patients} */}
          <FlatList
             data={patients}

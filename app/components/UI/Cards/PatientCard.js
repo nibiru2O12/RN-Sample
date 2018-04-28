@@ -6,6 +6,9 @@ const Wrapper = styled.View`
   display: flex;
   flex-direction: row;
   padding: 8px;
+  background: white;
+  border-bottom-width: 1px;
+  border-bottom-color: #9E9E9E;
 `;
 
 const TextWrapper = styled.View`
@@ -45,10 +48,10 @@ const PatientCard = props => {
           <TextData>{age}</TextData>
         </TextWrapper>
       </View>
-      <Image
+      {/* <Image
         style={{width: 80, height: 80}}
         source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-      />
+      /> */}
     </Wrapper>
   )
 }
