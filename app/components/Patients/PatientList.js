@@ -1,148 +1,41 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux';
 import {ScrollView,FlatList,Button,View,Text,TextInput,Stylesheet,TouchableOpacity} from 'react-native';
 import PatientCard from '../UI/Cards/PatientCard';
 import Searchbox from '../UI/Inputs/Searchbox';
 import BarcodeScanner from '../BarcodeScanner';
+import * as action from '../../store/actions/actions';
 
 class PatientList extends Component{
+
+
+  state = {
+    searchString:"",
+    scan:false,
+  }
 
   _onChange = value => {
 
     this.setState({scan:false,searchString:value})
-
     const patients = [...this.state.patients].filter(patient=>patient.name.includes(value));
     // this.setState({patients})
-
   }
 
   _search = ({data}) => {
     this.setState({scan:false,searchString:data})
   }
 
-  state = {
-    searchString:"",
-    scan:false,
-    patients: [
-      {
-        key:"1",
-        controlNo:"009-20012",
-        name:"Gagui, Robert Jhon",
-        age: 28,
-        gender: "male"
-      },
-      {
-        key:"2",
-        controlNo:"010-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"3",
-        controlNo:"011-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"4",
-        controlNo:"012-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"5",
-        controlNo:"013-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"6",
-        controlNo:"014-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"7",
-        controlNo:"015-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"8",
-        controlNo:"016-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"9",
-        controlNo:"017-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"10",
-        controlNo:"018-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"11",
-        controlNo:"019-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"12",
-        controlNo:"020-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      },
-      {
-        key:"13",
-        controlNo:"021-20012",
-        name:"Isip, Michelle",
-        age: 28,
-        gender: "female"
-      }
-    ]
+  componentDidMount(){
+    this.props._searchPatient("gagui");
   }
 
-  // componentDidUpdate(a,b){
-  //   console.log(a,b)
-  //   if(this.state.searchString!==""){
-  //     const patients = [...this.state.patients].filter(patient=>patient.name.includes(this.state.searchString));
-  //     console.log(patients)
-  //     this.setState({patients})
-  //   }
-
-  // }
 
   render(){
-    // const patients = mock_data.map((patient,i) => (
-    //   <TouchableOpacity
-    //     key={patient.controlNo}
-    //     onPress={()=>this.props._onPress(patient)}>
-
-    //     <PatientCard 
-    //       controlNo={patient.controlNo}
-    //       name={patient.name}
-    //       age={patient.age}
-    //       gender={patient.gender} />
-    //   </TouchableOpacity>
+    console.log(this.props)
+    const {patients} = this.props;
+    // const patients = [...this.state.patients].filter(patient=>(
+    //   patient.controlNo.includes(this.state.searchString) || patient.name.includes(this.state.searchString) 
     // ));
-    const patients = [...this.state.patients].filter(patient=>(
-      patient.controlNo.includes(this.state.searchString) || patient.name.includes(this.state.searchString) 
-    ));
  
     return(
       <View style={{flex:1}}>
@@ -179,4 +72,17 @@ class PatientList extends Component{
   }
 }
 
-export default PatientList;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    patients: state.patients.patients,
+    err: state.patients.err,
+    isLoading: state.patients.isLoading
+  }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    _searchPatient : ()=> dispatch(action.searchPatient())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(PatientList);
